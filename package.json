@@ -1,0 +1,7 @@
+{
+  "name": "Boot.dev",
+  "version": "1.0.0",
+  "description": "Effortless MacOS Bootstrapping, from zero to ready",
+  "main": "run.sh",
+  "author": ""
+}

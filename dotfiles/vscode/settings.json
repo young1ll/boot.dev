@@ -1,0 +1,472 @@
+{
+    /* -------------------------------------------------------------------------- */
+    /*                                Git Settings                                */
+    /* -------------------------------------------------------------------------- */
+    "git.autofetch": true,
+    "git.openRepositoryInParentFolders": "never",
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "git.blame.statusBarItem.enabled": false,
+    "git.blame.editorDecoration.enabled": true,
+    /* -------------------------------------------------------------------------- */
+    /*                               Github Settings                              */
+    /* -------------------------------------------------------------------------- */
+    "githubIssues.queries": [
+        {
+            "label": "내 문제",
+            "query": "is:open assignee:${user} repo:${owner}/${repository}",
+            "groupBy": ["milestone"]
+        },
+        {
+            "label": "생성된 문제",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        },
+        {
+            "label": "최근 문제",
+            "query": "state:open repo:${owner}/${repository} sort:updated-desc"
+        }
+    ],
+    /* -------------------------------------------------------------------------- */
+    /*                               Editor Settings                              */
+    /* -------------------------------------------------------------------------- */
+    "editor.fontFamily": "D2Coding, Consolas, 'Courier New', monospace",
+    "editor.mouseWheelZoom": true,
+    "editor.accessibilitySupport": "off",
+    "editor.guides.bracketPairs": true,
+    "editor.formatOnSave": true,
+    "editor.minimap.renderCharacters": false,
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            /* ----------------------------------- 주석 ----------------------------------- */
+            {
+                "scope": ["punctuation.definition.comment", "comment"],
+                "settings": {
+                    "foreground": "#6A9955", // 부드러운 녹색 (예: Monokai Dimmed 스타일)
+                    "fontStyle": "italic"
+                }
+            },
+            /* --------------------------------- 키워드 --------------------------------- */
+            {
+                "scope": "keyword.control",
+                "settings": {
+                    "foreground": "#C586C0", // 보라색 계열
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "scope": [
+                    "keyword.operator.new",
+                    "keyword.operator.expression",
+                    "keyword.operator.cast",
+                    "keyword.operator.sizeof",
+                    "keyword.operator.logical.python"
+                ],
+                "settings": {
+                    // "foreground": "#D4D4D4",
+                    "fontStyle": "italic"
+                }
+            },
+            /* -------------------------- String -------------------------- */
+            {
+                "name": "String interpolation", // 보간
+                "scope": [
+                    "punctuation.definition.template-expression.begin",
+                    "punctuation.definition.template-expression.end",
+                    "punctuation.section.embedded"
+                ],
+                "settings": {
+                    "foreground": "#CE9178", // 문자열 색상과 조화
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "name": "Normal Strings", // 문자열(리터럴)
+                "scope": ["string.quoted.single", "string.quoted.double"],
+                "settings": {
+                    "foreground": "#98C379", // One Dark Pro 기본 문자열 색
+                    "fontStyle": "italic"
+                }
+            },
+            // {
+            //   "name": "Template Literals", // 문자열(템플릿)
+            //   "scope": "string.template",
+            //   "settings": {
+            //     "foreground": "#56B6C2", // 부드러운 하늘색
+            //     "fontStyle": "italic"
+            //   }
+            // },
+            /* --------------------------------- Markup ---------------------------------- */
+            {
+                "scope": "markup.underline",
+                "settings": {
+                    "fontStyle": "underline"
+                }
+            },
+            {
+                "scope": "markup.bold",
+                "settings": {
+                    "fontStyle": "bold"
+                }
+            },
+            {
+                "scope": "markup.heading",
+                "settings": {
+                    "foreground": "#569CD6", // 제목용 파란색 계열
+                    "fontStyle": "bold"
+                }
+            },
+            {
+                "scope": "markup.italic",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            },
+            /* --------------------------------- Storage --------------------------------- */
+            {
+                "scope": "storage.type",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "scope": "storage.modifier",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            },
+            /* ---------------------------------- THIS ---------------------------------- */
+            {
+                "name": "this/self",
+                "scope": "variable.language",
+                "settings": {
+                    "foreground": "#FF6B81", // 기존보다 살짝 부드러운 핑크
+                    "fontStyle": "italic"
+                }
+            },
+            /* -------------------------------- Decorator ------------------------------- */
+            {
+                "name": "@Decorator Symbol Only",
+                "scope": "punctuation.decorator",
+                "settings": {
+                    "foreground": "#FFD700", // 골드색
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "name": "Decorator Full",
+                "scope": "meta.decorator",
+                "settings": {
+                    "foreground": "#FFD700", // 골드색
+                    "fontStyle": "italic bold"
+                }
+            },
+            /* --------------------------------- Emphasis -------------------------------- */
+            {
+                "scope": "emphasis",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            },
+            {
+                "scope": "strong",
+                "settings": {
+                    "fontStyle": "bold"
+                }
+            },
+            {
+                "scope": "entity.other.attribute-name",
+                "settings": {
+                    "fontStyle": "italic"
+                }
+            }
+        ]
+    },
+    "diffEditor.ignoreTrimWhitespace": true,
+    /* -------------------------------------------------------------------------- */
+    /*                              Prettier Settings                             */
+    /* -------------------------------------------------------------------------- */
+    "prettier.endOfLine": "auto",
+    "prettier.printWidth": 120,
+    "prettier.requireConfig": true,
+    /* -------------------------------------------------------------------------- */
+    /*                             Workbench Settings                             */
+    /* -------------------------------------------------------------------------- */
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "One Dark Pro",
+    "material-icon-theme.activeIconPack": "nest",
+    /* ------------------------------ material icon ----------------------------- */
+    "files.associations": {
+        "**/.helmignore": "gitignore"
+    },
+    "explorer.sortOrder": "default",
+    "explorer.confirmDelete": false, // 삭제 확인
+    "explorer.compactFolders": false,
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.js",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+        "*.jsx": "${capture}.js",
+        "*.tsx": "${capture}.ts",
+        "tsconfig.json": "tsconfig.*.json",
+        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+        "*.sqlite": "${capture}.${extname}-*",
+        "*.db": "${capture}.${extname}-*",
+        "*.sqlite3": "${capture}.${extname}-*",
+        "*.db3": "${capture}.${extname}-*",
+        "*.sdb": "${capture}.${extname}-*",
+        "*.s3db": "${capture}.${extname}-*"
+    },
+    /* ---------------------------- terminal settings --------------------------- */
+    "terminal.integrated.fontFamily": "MesloLGLDZNerdFont Regular, D2Coding, monospace",
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Language Settings                             */
+    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------- JSON ---------------------------------- */
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    /* ---------------------------------- HTML ---------------------------------- */
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    /* ------------------------------- JavaScript ------------------------------- */
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "javascript.updateImportsOnFileMove.enabled": "never",
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    /* ------------------------------- TypeScript ------------------------------- */
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F20"
+            },
+            {
+                "column": 100,
+                "color": "#EE426640"
+            }
+        ]
+    },
+    "typescript.updateImportsOnFileMove.enabled": "never",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    /* ------------------------------- Dockerfile ------------------------------- */
+    "[dockerfile]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F20"
+            },
+            {
+                "column": 100,
+                "color": "#EE426640"
+            }
+        ]
+    },
+    "[dockercompose]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F20"
+            },
+            {
+                "column": 100,
+                "color": "#EE426640"
+            }
+        ]
+    },
+    /* ---------------------------------- YAML ---------------------------------- */
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F20"
+            },
+            {
+                "column": 100,
+                "color": "#EE426640"
+            }
+        ]
+    },
+    /* ---------------------------------- TOML ---------------------------------- */
+    "[toml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F20"
+            },
+            {
+                "column": 100,
+                "color": "#EE426640"
+            }
+        ]
+    },
+    /* ----------------------------------- SQL ---------------------------------- */
+    "[sql]": {
+        "editor.defaultFormatter": "bradymholt.pgformatter",
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F20"
+            },
+            {
+                "column": 100,
+                "color": "#EE426640"
+            }
+        ]
+    },
+    /* --------------------------------- Prisma --------------------------------- */
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F80"
+            },
+            {
+                "column": 100,
+                "color": "#EE426680"
+            }
+        ]
+    },
+    "[markdown]": {
+        "editor.wordWrap": "on",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F80"
+            },
+            {
+                "column": 100,
+                "color": "#EE426680"
+            }
+        ]
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [
+            {
+                "column": 80,
+                "color": "#FFD23F20"
+            },
+            {
+                "column": 100,
+                "color": "#EE426640"
+            }
+        ]
+    },
+    /* -------------------------------------------------------------------------- */
+    /*                             Extension Settings                             */
+    /* -------------------------------------------------------------------------- */
+    /* -------------------------------- TODOTREE -------------------------------- */
+    "todo-tree.general.tags": [
+        "BUG",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "[!]",
+        "NOTE"
+    ],
+    "todo-tree.highlights.customHighlight": {
+        "FIXME": {
+            // "background": "#FF204E",
+            "foreground": "#FF748B",
+            "gutterIcon": true,
+            "icon": "no-entry-fill",
+            "iconColour": "#FF748B",
+            "type": "text"
+        },
+        "[!]": {
+            // "background": "#A0C878",
+            "foreground": "#FF748B",
+            "gutterIcon": true,
+            "icon": "alert-fill",
+            "iconColour": "#FF748B",
+            "type": "text"
+        },
+        "[ ]": {
+            "background": "#FCC737",
+            "foreground": "#31363F",
+            "gutterIcon": true,
+            // "icon": "circle",
+            "iconColour": "#FCC737",
+            "type": "text"
+        },
+        "[x]": {
+            // "background": "#A0C878",
+            "foreground": "#638C6D",
+            "gutterIcon": true,
+            "icon": "check-circle-fill",
+            "iconColour": "#638C6D",
+            "type": "text"
+        }
+    },
+    /* --------------------------------- cSpell --------------------------------- */
+    "cSpell.userWords": [
+        "Accessly",
+        "Backoffice",
+        "bytea",
+        "cloudinary",
+        "clsx",
+        "cmdk",
+        "datatable",
+        "esbenp",
+        "hashbin",
+        "hashs",
+        "hookform",
+        "Insertable",
+        "Kysely",
+        "menuphone",
+        "Mercurius",
+        "Naver",
+        "nestjs",
+        "nextui",
+        "Parens",
+        "pino",
+        "pretendard",
+        "RABBITMQ",
+        "shadcn",
+        "signin",
+        "signout",
+        "Signup",
+        "Subsidebar",
+        "tailwindcss",
+        "tanstack",
+        "Timestamptz",
+        "trivago",
+        "Updateable",
+        "USECASE",
+        "usecases",
+        "usehooks",
+        "xpack",
+        "zeroplate",
+        "totp",
+        "totps",
+        "rememberme",
+        "zettel"
+    ],
+    /* ---------------------------- Codeium:Windsurf ---------------------------- */
+    "codeium.enableConfig": {
+        "*": true,
+        "prisma": true
+    },
+    "gitlens.ai.model": "gitkraken",
+    "gitlens.ai.vscode.model": "copilot:gpt-3.5-turbo",
+    "gitlens.ai.gitkraken.model": "gemini:gemini-2.0-flash"
+}
