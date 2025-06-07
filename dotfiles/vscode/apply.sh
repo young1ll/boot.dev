@@ -48,4 +48,4 @@ fi
 cp "$SRC_SETTINGS" "$DEST_SETTINGS"
 g_log info "새로운 settings.json을 적용했습니다: $DEST_SETTINGS"
 
-exit 0
+return

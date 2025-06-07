@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 TARGET_ZSHRC="$1"
 
-if grep -q "# [PYTHON.SH] APPLIED" "$TARGET_ZSHRC"; then
+if grep -q "# \[PYTHON.SH\] APPLIED" "$TARGET_ZSHRC"; then
   exit 0
 fi
 
@@ -56,9 +56,11 @@ else
 fi
 
 if ! grep -q "# \[PYTHON.SH\] APPLIED" "$TARGET_ZSHRC"; then
-  echo "# [PYTHON.SH] APPLIED -------------------------------------------------------- #" >> "$TARGET_ZSHRC"
+  {
+    echo
+    echo "# [PYTHON.SH] APPLIED -------------------------------------------------------- #"
+  } >> "$TARGET_ZSHRC"
 fi
-
 
 rm -f "$TARGET_ZSHRC.bak"
 exit 0

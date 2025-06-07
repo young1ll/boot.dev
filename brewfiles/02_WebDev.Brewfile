@@ -10,18 +10,19 @@ brew "asdf" # 다중 언어 관리자 | https://asdf-vm.com/ko-kr/guide/getting-
 brew "gpg" # GNU Privacy Guard
 brew "gawk" # GNU awk (텍스트 처리) | asdf 의존성
 
-brew node
-brew fnm
-brew yarn
-brew openjdk
-# brew bun
-# brew deno
+brew "node"
+brew "fnm"
+brew "yarn"
+brew "openjdk"
+# brew "bun"
+# brew "deno"
 
 brew "zsh" # setup.sh에서 설치
 brew "zsh-autosuggestions" # Zsh에  자동 완성 기능 추가
 brew "zsh-completions" # Zsh에  완성 기능 추가
 brew "zsh-syntax-highlighting" # Zsh  구문 강조 기능 추가
 brew "chroma" # Zsh  Colorize
+brew "powerlevel10k"
 
 # QuickLook ------------------------------------------------------------------ #
 cask "qlmarkdown"
@@ -64,11 +65,11 @@ brew "fzf" # go 기반 | 퍼지(fuzzy) 검색 도구
 brew "mkcert" # local SSL certificate
 brew "openssl" # SSL certificate
 
-cask dash # API Doc Browser + 코드 스니펫 관리자 (15유로)
+cask "dash" # API Doc Browser + 코드 스니펫 관리자 (15유로)
+cask "karabiner-elements"
 
 # Git & Github --------------------------------------------------------------- #
 brew "git" # 분산 버전 관리 시스템:contentReference[oaicite:8]{index=8}
-brew "git-credential-manager"
 brew "gh" # Github CLI
 brew "commitizen" # 커밋 헬퍼 https://github.com/commitizen-tools/commitizen
 brew "act" # Github Actions 로컬 실행기 | https://github.com/nektos/act
@@ -90,6 +91,7 @@ cask "firefox"
 
 # Drive ---------------------------------------------------------------------- #
 cask "google-drive"
+# cask "synology-drive"
 
 # WebServer ------------------------------------------------------------------ #
 brew "nginx" # HTTP 서버

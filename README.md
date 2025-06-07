@@ -21,11 +21,7 @@
 ### MacOS
 
 ```bash
-
-```
-
-### Linux
-
-```bash
-
+$ git clone https://github.com/young1ll/boot.dev.git
+$ cd boot.dev
+$ ./run.sh
 ```

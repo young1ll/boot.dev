@@ -48,6 +48,5 @@ if ! grep -q "# \[NMAP.SH\] APPLIED" "$TARGET_ZSHRC"; then
   } >> "$TARGET_ZSHRC"
 fi
 
-
 rm -f "$TARGET_ZSHRC.bak"
 exit 0

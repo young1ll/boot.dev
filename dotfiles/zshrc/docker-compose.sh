@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 TARGET_ZSHRC="$1"
 
-if grep -q "# [DOCKER.SH] APPLIED" "$TARGET_ZSHRC"; then
+if grep -q "# \[DOCKER.SH\] APPLIED" "$TARGET_ZSHRC"; then
   exit 0
 fi
 
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[DOCKER.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [DOCKER_COMPOSE.SH] STARTED ------------------------------------------------ #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -42,9 +42,11 @@ else
 fi
 
 if ! grep -q "# \[DOCKER_COMPOSE.SH\] APPLIED" "$TARGET_ZSHRC"; then
-  echo "# [DOCKER_COMPOSE.SH] APPLIED ------------------------------------------------ #" >> "$TARGET_ZSHRC"
+  {
+    echo
+    echo "# [DOCKER_COMPOSE.SH] APPLIED ------------------------------------------------ #"
+  } >> "$TARGET_ZSHRC"
 fi
-
 
 rm -f "$TARGET_ZSHRC.bak"
 exit 0

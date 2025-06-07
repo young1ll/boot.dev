@@ -105,74 +105,6 @@ install_git() {
     info "- git 설치 확인됨: $(git --version)"
   fi
 }
-install_p10k() {
-  echo
-  info "[omz + p10k]"
-
-  # 1) Oh My Zsh 설치 여부 확인 (기존 그대로)
-  if [[ -d "$HOME/.oh-my-zsh" ]]; then
-    info "- Oh My Zsh 설치 확인됨."
-  else
-    warn "🔄 Oh My Zsh가 설치되어 있지 않습니다. 설치를 진행합니다..."
-    read -rp "  Oh My Zsh를 설치하시겠습니까? (Y/n): " omz_choice
-    if [[ -z "$omz_choice" || "$omz_choice" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-      info "🔄 Oh My Zsh 설치 중..."
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-      info "- Oh My Zsh 설치가 완료되었습니다."
-    else
-      warn "- p10k 설치를 건너뜁니다. 이후 수동 설치가 필요합니다."
-      return
-    fi
-  fi
-
-  # 2) Powerlevel10k 테마 설치 (기존 그대로)
-  # local p10k_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-  # if [[ -d "$p10k_dir" ]]; then
-  if ! command -v powerlevel10k >/dev/null 2>&1; then
-    info "- powerlevel10k(p10k) 이미 설치됨"
-  else
-    info "🔄 powerlevel10k(p10k) 설치를 시작합니다..."
-    brew install powerlevel10k
-    info "- powerlevel10k 설치가 완료되었습니다"
-  fi
-
-  # 3) ~/.zshrc가 없으면 새로 생성
-  if [[ ! -f "$HOME/.zshrc" ]]; then
-  info "🔄 ~/.zshrc가 없으므로 기본 템플릿을 생성합니다."
-  cat > "$HOME/.zshrc" <<'EOT'
-# ~/.zshrc 기본 템플릿
-export ZSH="$HOME/.oh-my-zsh"
-source $ZSH/oh-my-zsh.sh
-
-# Homebrew 기본 경로를 PATH에 추가
-export PATH="/opt/homebrew/bin:$PATH"
-
-EOT
-  fi
-
-  # 4) 이 줄이 이미 존재하는지 먼저 검사
-  # (1) export ZSH와 (2) ZSH_THEME="powerlevel10k/powerlevel10k" 둘 다 있어야 “이미 설정됨”으로 판단
-  if grep -Eq '^\s*export\s+ZSH=.*\.oh-my-zsh' "$HOME/.zshrc" && \
-    grep -Eq '^\s*ZSH_THEME="powerlevel10k/powerlevel10k"' "$HOME/.zshrc"; then
-    info "- 기존 .zshrc에 p10k 관련 설정(ZSH, ZSH_THEME)확인. Skip..."
-    return
-  fi
-  # 5) export ZSH ~ p10k 설정 마법사 로드까지 네 줄을 한 번에 삽입
-  #    ────────────────────────────────────────────────────────────────────────
-  cat >> "$HOME/.zshrc" <<'EOF'
-export ZSH="$HOME/.oh-my-zsh"
-source $ZSH/oh-my-zsh.sh
-
-# Homebrew 기본 경로를 PATH에 추가
-export PATH="/opt/homebrew/bin:$PATH"
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-# source /opt/homebrew/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
-EOF
-
-  info "- .zshrc 최상단에 p10k 관련 블록 삽입 완료."
-}
 
 
 install_gum() {
@@ -225,7 +157,6 @@ init_environment() {
   install_xcodecli
   install_homebrew
   install_zsh
-  install_p10k
   install_gum
 
   echo

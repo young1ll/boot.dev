@@ -2,14 +2,14 @@
 
 TARGET_ZSHRC="$1"
 
-if grep -q "# [PODMAN.SH] APPLIED" "$TARGET_ZSHRC"; then
+if grep -q "# \[PODMAN.SH\] APPLIED" "$TARGET_ZSHRC"; then
   exit 0
 fi
 
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[PODMAN.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [PODMAN.SH] STARTED -------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -45,6 +45,7 @@ fi
 # 성공 마커가 없으면 삽입
 if ! grep -q "# \[PODMAN.SH\] APPLIED" "$TARGET_ZSHRC"; then
   {
+    echo
     echo "# [PODMAN.SH] APPLIED -------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi

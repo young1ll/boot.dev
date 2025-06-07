@@ -10,7 +10,7 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[FZF.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [FZF.SH] STARTED ----------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi

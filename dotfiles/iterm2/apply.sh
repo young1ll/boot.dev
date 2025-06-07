@@ -26,4 +26,4 @@ else
   g_log warn "색상 테마 디렉토리를 찾을 수 없습니다: $COLOR_SCHEMES_SRC (SKIP)"
 fi
 
-exit 0
+return

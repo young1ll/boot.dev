@@ -1,64 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# -----------------------------------------------------------------------------
-# 최상단에 ROOT_DIR을 정의해야 $ROOT_DIR 변수가 올바르게 설정됩니다.
-# -----------------------------------------------------------------------------
-# readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-# readonly SELECTED_FILE="$ROOT_DIR/.selected_brewfile"
 readonly ZSHRC_SNIPPETS_DIR="$ROOT_DIR/dotfiles/zshrc"
 readonly TARGET_ZSHRC="$HOME/.zshrc"
 
 export ZSHRC_SNIPPETS_DIR
 export TARGET_ZSHRC
-
-# POWERLEVEL9K_SHORTEN_STRATEGY=\"truncate_to_last\""
-# POWERLEVEL9K_SHORTEN_DIR_LENGTH=2"
-# configure_p10k() {
-#   local p10k_rc="$HOME/.p10k.zsh"
-
-#   if [[ -f "$p10k_rc" ]]; then
-#     g_log info "▶ $p10k_rc 파일이 이미 존재하므로, 편집을 시작합니다."
-
-#     # (A) 편집 전 파일 내용 디버깅 출력 (선택적)
-#     # g_log info "▶ (디버깅) 현재 $p10k_rc 상위 50줄을 출력합니다:"
-#     # sed -n '1,50p' "$p10k_rc" | sed 's/^/    /'
-
-#     # (B) 임시 파일 생성
-#     local tmpfile
-#     tmpfile="$(mktemp "${TMPDIR:-/tmp}/p10k.XXXXX")"
-
-#     # 1) 줄 전체를 덮어쓰는 방식으로 짤끔하게 패턴 매칭 (공백/등호 주변 허용)
-#     sed -E 's/^[[:space:]]*POWERLEVEL9K_SHORTEN_STRATEGY[[:space:]]*=[[:space:]]*.*$/POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_last"/' \
-#       "$p10k_rc" > "$tmpfile"
-
-#     # 2) 방금 만든 tmpfile을 다시 읽어서 SHORTEN_DIR_LENGTH도 변경
-#     sed -E 's/^[[:space:]]*POWERLEVEL9K_SHORTEN_DIR_LENGTH[[:space:]]*=[[:space:]]*.*$/POWERLEVEL9K_SHORTEN_DIR_LENGTH=2/' \
-#       "$tmpfile" > "${tmpfile}.2"
-
-#     # (C) 편집 결과를 원본에 반영 (심볼릭 링크 여부에 따라 분기)
-#     if [[ -L "$p10k_rc" ]]; then
-#       # 링크라면, 실제 원본 경로를 찾아서 덮어쓰되 권한·타임스탬프 보존
-#       target="$(readlink "$p10k_rc")"
-#       cp -p "${tmpfile}.2" "$target"
-#       g_log info "[APPLY] $p10k_rc 는 링크이므로, 원본($target)에 수정 내용을 적용했습니다."
-#     else
-#       # 일반 파일인 경우 바로 덮어쓰기
-#       mv "${tmpfile}.2" "$p10k_rc"
-#       g_log info "[APPLY] $p10k_rc 파일에 수정 내용을 적용했습니다."
-#     fi
-
-#     # (D) 임시 파일 정리
-#     rm -f "$tmpfile"
-
-#     g_log info "[APPLY] $p10k_rc 내부 POWERLEVEL9K_SHORTEN 설정이 성공적으로 적용되었습니다."
-#   else
-#     g_log warn "⚠️ 아직 $p10k_rc 파일이 없습니다. 'p10k configure'를 먼저 실행해 주세요."
-#     g_log warn "   파일이 생성된 뒤, 아래 두 설정을 수동으로 추가하거나 스크립트를 다시 실행해야 합니다:"
-#     echo "     POWERLEVEL9K_SHORTEN_STRATEGY=\"truncate_to_last\""
-#     echo "     POWERLEVEL9K_SHORTEN_DIR_LENGTH=2"
-#   fi
-# }
 
 configzsh_defaults() {
   source "$ROOT_DIR/scripts/utilities/format.sh"
@@ -66,8 +13,8 @@ configzsh_defaults() {
 
   # 기본 스니펫 목록
   local default_snippets=(
-    "common.sh"
     "p10k.sh"
+    "common.sh"
     # 필요 시 추가
   )
 
@@ -125,7 +72,7 @@ configzsh_tools() {
 
     "visual-studio-code" "iterm2" "vim"
     # "tmux"
-    "firefox" "google-chrome"
+    "firefox" "google-chrome" "google-drive" "synology-drive" "karabiner-elements"
 
     "vercel-cli" "aws-sam-cli" "session-manager-plugin"
     # "azure-cli"
@@ -242,10 +189,14 @@ run_zshrc() {
   TMP_LOG=$(mktemp -t configzsh_log)
 
   export UNIQUE_TOOLS_STR="$(printf "%s\n" "${unique_tools[@]}")"
-  if gum spin --show-output --title "zsh 설정 중..." -- bash -c "apply_zsh_config_wrapper > \"${TMP_LOG}\" 2>&1"; then
-    g_log info "✅ zsh 설정이 성공적으로 완료되었습니다."
-  else
-    g_log error "❌ zsh 설정 중 오류가 발생했습니다. 로그 파일을 확인하세요: ${F_DIM}${TMP_LOG}${NO_FORMAT}"
+  
+  if ! configzsh_defaults; then
+    g_log error "❌ 기본 스니펫 적용 중 오류가 발생했습니다."
+    return 1
+  fi
+
+  if ! configzsh_tools; then
+    g_log error "❌ 도구 스니펫 적용 중 오류가 발생했습니다."
     return 1
   fi
 

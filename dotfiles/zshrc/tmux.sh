@@ -8,7 +8,7 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[TMUX.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [TMUX.SH] STARTED ---------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -42,9 +42,11 @@ else
 fi
 
 if ! grep -q "# \[TMUX.SH\] APPLIED" "$TARGET_ZSHRC"; then
-  echo "# [TMUX.SH] APPLIED ---------------------------------------------------------- #" >> "$TARGET_ZSHRC"
+  {
+    echo
+    echo "# [TMUX.SH] APPLIED ---------------------------------------------------------- #"
+  } >> "$TARGET_ZSHRC"
 fi
-
 
 rm -f "$TARGET_ZSHRC.bak"
 exit 0

@@ -9,10 +9,10 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[EZA.SH\] STARTED" "$TARGET_ZSHRC"; then
     {
-        echo ""
+        echo
         echo "# [EZA.SH] STARTED ----------------------------------------------------------- #"
         echo "# Reference: https://www.gnu.org/software/coreutils/manual/coreutils.html"
-        echo ""
+        echo
     } >> "$TARGET_ZSHRC"
 fi
 
@@ -39,10 +39,10 @@ fi
 
 # 성공 마커가 없으면 삽입
 if ! grep -q "# \[EZA.SH\] APPLIED" "$TARGET_ZSHRC"; then
-    {
-        echo
-        echo "# [EZA.SH] APPLIED ----------------------------------------------------------- #" 
-    }>> "$TARGET_ZSHRC"
+  {
+    echo
+    echo "# [EZA.SH] APPLIED ----------------------------------------------------------- #" 
+  }>> "$TARGET_ZSHRC"
 fi
 
 rm -f "$TARGET_ZSHRC.bak"

@@ -1,8 +1,8 @@
 # description: IoC 전용 기본 패키지
 
 # Docker --------------------------------------------------------------------- #
-tap hashicorp/tap
-brew hashicorp/tap/packer # Packer (머신 이미지 생성)
+tap "hashicorp/tap"
+brew "hashicorp/tap/packer" # Packer (머신 이미지 생성)
 
 tap "hashicorp/tap"
 brew "hashicorp/tap/terraform" # Infrastructure as Code (IaC)

@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 
 TARGET_ZSHRC="$1"
-ENV_FILE="$ROOT_DIR/.env"
 
-if grep -q "# [MINIKUBE.SH] APPLIED" "$TARGET_ZSHRC"; then
+if grep -q "# \[MINIKUBE.SH\] APPLIED" "$TARGET_ZSHRC"; then
   exit 0
 fi
 
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[MINIKUBE.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [MINIKUBE.SH] STARTED ------------------------------------------------------ #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -46,6 +45,7 @@ fi
 # 성공 마커가 없으면 삽입
 if ! grep -q "# \[MINIKUBE.SH\] APPLIED" "$TARGET_ZSHRC"; then
   {
+    echo
     echo "# [MINIKUBE.SH] APPLIED ------------------------------------------------------ #"
   } >> "$TARGET_ZSHRC"
 fi

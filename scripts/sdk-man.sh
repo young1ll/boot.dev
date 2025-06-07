@@ -10,7 +10,7 @@ run_sdkman () {
       g_log info "✅ SDKMAN 설치 완료"
     else
       g_log error "❌ SDKMAN 설치 취소"
-      exit 1
+      return 0
     fi
   else
     g_log info "✅ SDKMAN 이미 설치됨"

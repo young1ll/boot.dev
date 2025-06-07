@@ -5,7 +5,7 @@ set -euo pipefail
 source "$ROOT_DIR/scripts/utilities/format.sh"
 source "$ROOT_DIR/scripts/utilities/gum.sh"
 
-KARABINER_DIR="$DOTFILES_DIR/karabiner"
+KARABINER_DIR="$DOTFILES_DIR/karabiner-elements"
 TARGET_DIR="$HOME/.config/karabiner"
 
 g_log info "▶ Karabiner 설정 복사를 시작합니다."

@@ -9,7 +9,7 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[OPENTOFU.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [OPENTOFU.SH] STARTED ------------------------------------------------------ #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -44,7 +44,10 @@ fi
 
 # 성공 마커가 없으면 삽입
 if ! grep -q "# \[OPENTOFU.SH\] APPLIED" "$TARGET_ZSHRC"; then
-  echo "# [OPENTOFU.SH] APPLIED ------------------------------------------------------ #" >> "$TARGET_ZSHRC"
+  {
+    echo
+    echo "# [OPENTOFU.SH] APPLIED ------------------------------------------------------ #"
+  } >> "$TARGET_ZSHRC"
 fi
 
 rm -f "$TARGET_ZSHRC.bak"

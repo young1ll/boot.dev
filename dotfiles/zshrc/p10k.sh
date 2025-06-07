@@ -11,8 +11,55 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[P10K.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [P10K.SH] STARTED ---------------------------------------------------------- #"
+  } >> "$TARGET_ZSHRC"
+fi
+
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+  echo "⚙️ oh-my-zsh가 설치되어 있지 않습니다. 설치를 시작합니다..."
+  git clone https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh" \
+    && echo "✅ oh-my-zsh 설치 완료" \
+    || { echo "❌ oh-my-zsh 설치에 실패했습니다."; exit 1; }
+fi
+
+# # ZSH 환경변수가 없으면 기본 경로 설정
+# if grep -q "^export ZSH=" "$TARGET_ZSHRC"; then
+#   # sed를 작은따옴표 패턴으로 감싸거나 \$HOME 형태로 이스케이프
+#   sed -i.bak 's|^export ZSH=.*|export ZSH="$HOME/.oh-my-zsh"|' "$TARGET_ZSHRC"
+# else
+#   echo 'export ZSH="$HOME/.oh-my-zsh"' >> "$TARGET_ZSHRC"
+# fi
+
+# # oh-my-zsh 로드 라인
+# if ! grep -q 'source[[:space:]]\$ZSH/oh-my-zsh\.sh' "$TARGET_ZSHRC"; then
+#   {
+#     echo 'source $ZSH/oh-my-zsh.sh'
+#     echo
+#   } >> "$TARGET_ZSHRC"
+# fi
+
+if [[ ! -f "$HOME/.p10k.zsh" ]]; then
+  echo "⚠️  .p10k.zsh 파일이 없어 Powerlevel10k 설정을 시작합니다."
+  echo "   완료 후 자동으로 설정을 이어갑니다."
+  read -r -p "▶ 지금 'p10k configure'를 대화형 zsh로 실행할까요? (Y/n): " ans
+  if [[ ! "$ans" =~ ^[Nn]$ ]]; then
+    # -i: interactive, -c: command
+    zsh -ic "p10k configure"
+  fi
+
+  # 다시 확인
+  if [[ ! -f "$HOME/.p10k.zsh" ]]; then
+    echo "❌ 설정이 완료되지 않았습니다. 수동으로 zsh에서 'p10k configure' 실행 후 재시도하세요."
+    exit 1
+  fi
+fi
+
+# POWERLEVEL10K 로드
+if ! grep -q 'source[[:space:]]\$(brew --prefix)/share/powerlevel10k/powerlevel10k\.zsh-theme' "$TARGET_ZSHRC"; then
+  {
+    echo 'source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme'
+    echo
   } >> "$TARGET_ZSHRC"
 fi
 
@@ -43,9 +90,12 @@ if [[ -f "$P10K_FILE" ]]; then
     sed -i.bak "s|^POWERLEVEL9K_SHORTEN_STRATEGY=.*|POWERLEVEL9K_SHORTEN_STRATEGY=\"truncate_to_last\"|" "$P10K_FILE"
     echo "# [.p10k.sh] directory shorten strategy applied" >> "$TARGET_ZSHRC"
   else
-    echo "" >> "$P10K_FILE"
-    echo "# [P10K.SH] directory shorten strategy" >> "$P10K_FILE"
-    echo "POWERLEVEL9K_SHORTEN_STRATEGY=\"truncate_to_last\"" >> "$P10K_FILE"
+    {
+      echo
+      echo "# [P10K.SH] directory shorten strategy"
+      echo "POWERLEVEL9K_SHORTEN_STRATEGY=\"truncate_to_last\""
+    } >> "$P10K_FILE"
+    echo "# [.p10k.sh] directory shorten strategy applied" >> "$TARGET_ZSHRC"
   fi
 
   # (b) POWERLEVEL9K_SHORTEN_DIR_LENGTH 설정
@@ -53,7 +103,12 @@ if [[ -f "$P10K_FILE" ]]; then
     sed -i.bak "s|^POWERLEVEL9K_SHORTEN_DIR_LENGTH=.*|POWERLEVEL9K_SHORTEN_DIR_LENGTH=2|" "$P10K_FILE"
     echo "# [.p10k.sh] directory shorten length applied" >> "$TARGET_ZSHRC"
   else
-    echo "POWERLEVEL9K_SHORTEN_DIR_LENGTH=2" >> "$P10K_FILE"
+    {
+      echo ""
+      echo "# [P10K.SH] directory shorten length"
+      echo "POWERLEVEL9K_SHORTEN_DIR_LENGTH=2"
+    } >> "$P10K_FILE"
+    echo "# [.p10k.sh] directory shorten length applied" >> "$TARGET_ZSHRC"
   fi
 
   # 성공 마커가 없으면 삽입
@@ -71,5 +126,4 @@ else
 fi
 
 rm -f "$TARGET_ZSHRC.bak"
-
 exit 0

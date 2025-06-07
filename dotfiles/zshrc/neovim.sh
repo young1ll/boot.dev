@@ -2,14 +2,14 @@
 
 TARGET_ZSHRC="$1"
 
-if grep -q "# [NEOVIM.SH] APPLIED" "$TARGET_ZSHRC"; then
+if grep -q "# \[NEOVIM.SH\] APPLIED" "$TARGET_ZSHRC"; then
   exit 0
 fi
 
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[NEOVIM.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [NEOVIM.SH] STARTED -------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -46,6 +46,7 @@ rm -rf ~/.config/nvim/.git
 # 성공 마커가 없으면 삽입
 if ! grep -q "# \[NEOVIM.SH\] APPLIED" "$TARGET_ZSHRC"; then
   {
+    echo
     echo "# [NEOVIM.SH] APPLIED -------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi

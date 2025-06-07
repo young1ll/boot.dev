@@ -9,7 +9,7 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[BAT.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [BAT.SH] STARTED ----------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -54,5 +54,4 @@ if ! grep -q "# \[BAT.SH\] APPLIED" "$TARGET_ZSHRC"; then
 fi
 
 rm -f "$TARGET_ZSHRC.bak"
-
 exit 0

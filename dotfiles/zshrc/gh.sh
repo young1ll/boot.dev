@@ -9,7 +9,7 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[GH.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [GH.SH] STARTED ------------------------------------------------------------ #"
   } >> "$TARGET_ZSHRC"
 fi

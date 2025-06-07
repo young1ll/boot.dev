@@ -40,4 +40,5 @@ while IFS= read -r var; do
 done < <(grep -E '^\s*GITCONFIG_[A-Z0-9_]+\s*=' "$ENV_FILE" || true)
 
 g_log info "Git 전역 설정이 모두 적용되었습니다."
-exit 0
+
+return

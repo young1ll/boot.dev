@@ -18,18 +18,18 @@ if ! grep -q "# \[COMMON.SH\] STARTED" "$TARGET_ZSHRC"; then
   } >> "$TARGET_ZSHRC"
 fi
 
-# ZSH 환경변수가 없으면 기본 경로 설정
-if grep -q "^export ZSH=" "$TARGET_ZSHRC"; then
-  # sed를 작은따옴표 패턴으로 감싸거나 \$HOME 형태로 이스케이프
-  sed -i.bak 's|^export ZSH=.*|export ZSH="$HOME/.oh-my-zsh"|' "$TARGET_ZSHRC"
-else
-  echo 'export ZSH="$HOME/.oh-my-zsh"' >> "$TARGET_ZSHRC"
+# zsh-autosuggestions 로드 라인
+if ! grep -q 'source[[:space:]]\$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions\.zsh' "$TARGET_ZSHRC"; then
+  {
+    echo 'source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh'
+    echo
+  } >> "$TARGET_ZSHRC"
 fi
 
-# oh-my-zsh 로드 라인
-if ! grep -q 'source[[:space:]]\$ZSH/oh-my-zsh\.sh' "$TARGET_ZSHRC"; then
+# zsh-syntax-highlighting 로드 라인
+if ! grep -q 'source[[:space:]]\$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting\.zsh' "$TARGET_ZSHRC"; then
   {
-    echo 'source $ZSH/oh-my-zsh.sh'
+    echo 'source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
     echo
   } >> "$TARGET_ZSHRC"
 fi
@@ -99,7 +99,5 @@ if ! grep -q "# \[COMMON.SH\] APPLIED" "$TARGET_ZSHRC"; then
   } >> "$TARGET_ZSHRC"
 fi
 
-# sed가 남긴 백업 파일(.bak) 제거
 rm -f "$TARGET_ZSHRC.bak"
-
 exit 0

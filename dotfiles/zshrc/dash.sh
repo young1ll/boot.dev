@@ -9,7 +9,7 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[DASH.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo
     echo "# [DASH.SH] STARTED ---------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi
@@ -45,7 +45,8 @@ fi
 # 성공 마커가 없으면 삽입
 if ! grep -q "# \[DASH.SH\] APPLIED" "$TARGET_ZSHRC"; then
   {
-    echo "# [DASH.SH] STARTED ---------------------------------------------------------- #"
+    echo
+    echo "# [DASH.SH] APPLIED ---------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi
 

@@ -9,11 +9,10 @@ fi
 # 헤더 블록이 없는 경우에만 삽입
 if ! grep -q "# \[BUN.SH\] STARTED" "$TARGET_ZSHRC"; then
   {
-    echo ""
+    echo 
     echo "# [BUN.SH] STARTED ----------------------------------------------------------- #"
   } >> "$TARGET_ZSHRC"
 fi
-
 
 bun_plugin=(bun)
 if grep -q '^plugins=' "$TARGET_ZSHRC"; then

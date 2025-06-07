@@ -43,15 +43,16 @@ link_dotfiles () {
     declare -a unique_tools=()
     while IFS= read -r tool; do
         unique_tools+=("$tool")
+        echo $tool
     done < <(printf "%s\n" "${tools_list[@]}" | sort -u)
 
     # -----------------------------------------------------------------------------
     # 4) ignore 목록 정의 (mas, zsh, zsh-* 은 제외)
     # -----------------------------------------------------------------------------
     declare -a ignore_tools=(
-        "mas"
-        "zsh"
-        "zsh-*"
+        "mas" "zsh" "zsh-*"
+        "font-*"
+        "firefox" "google-chrome" "google-drive"
     )
 
     # -----------------------------------------------------------------------------
@@ -126,38 +127,9 @@ run_link () {
     # 3) gum spin이 종료된 시점: 이제 TMP_LOG 에 run_link 전체 로그가 들어 있음
     #    여기서 “[APPLY]”, “[IGNORE]”, “[NOT FOUND]” 태그를 기준으로 요약 통계 내기
     local applied_count ignored_count notfound_count
-    applied_count=$(grep -c "\[APPLY\]" "${TMP_LOG}")
-    ignored_count=$(grep -c "\[IGNORE\]" "${TMP_LOG}")
-    notfound_count=$(grep -c "\[NOT FOUND\]" "${TMP_LOG}")
-
-    # 1) 키 목록과 값 목록 정의
-    key1="APPLIED:"
-    key2="IGNORED:"
-    key3="NOT FOUND:"
-    key4="LOG FILE:"
-    key5="DURATION:"
-
-    val1="${applied_count}"
-    val2="${ignored_count}"
-    val3="${notfound_count}"
-    val4="${TMP_LOG}"
-    val5="${elapsed}초"
-
-    # 2) 가장 긴 키 길이 계산
-    local max_key_width=0
-    for key in "$key1" "$key2" "$key3" "$key4" "$key5"; do
-        local len=${#key}
-        (( len > max_key_width )) && max_key_width=$len
-    done
-
-    # 3) printf로 “키 + 공백 + 값” 형식으로 포맷팅
-    #    %-<width>s : 왼쪽 정렬로 키를 max_key_width 만큼 띄우고,
-    #    두 칸 공백("  ") 후에 값을 붙여서 동일한 열에 정렬되도록 함
-    line_applied=$(printf " %-${max_key_width}s  %s" "$key1" "$val1")
-    line_ignored=$(printf " %-${max_key_width}s  %s" "$key2" "$val2")
-    line_notfound=$(printf " %-${max_key_width}s  %s" "$key3" "$val3")
-    line_duration=$(printf " %-${max_key_width}s  %s" "$key4" "${F_DIM}$val4${NO_FORMAT}")
-    line_logfile=$(printf " %-${max_key_width}s  %s" "$key5" "$val5")
+    applied_count=$(awk '/\[APPLY\][[:space:]]/ { count++ } END { print (count ? count : 0) }' "${TMP_LOG}")
+    ignored_count=$(awk '/\[IGNORE\][[:space:]]/ { count++ } END { print (count ? count : 0) }' "${TMP_LOG}")
+    notfound_count=$(awk '/\[NOT[[:space:]]FOUND\][[:space:]]/ { count++ } END { print (count ? count : 0) }' "${TMP_LOG}")
 
     # 4) 사용자에게 요약만 출력
     gum style \
@@ -167,13 +139,16 @@ run_link () {
         " 🤖 ${F_BOLD}dotfiles 설정 요약${NO_FORMAT}" \
         "================================================================================================" \
         "" \
-        "$line_applied" \
-        "$line_ignored" \
-        "$line_notfound" \
+        "APPLIED:       ${applied_count}" \
+        "IGNORED:       ${ignored_count}" \
+        "NOT FOUNDED:   ${notfound_count}" \
         "" \
-        "$line_duration" \
-        "$line_logfile"
+        "LOG FILE:      ${TMP_LOG}" \
+        "DURATION:      ${elapsed}초"
 
     # 5) 임시 파일은 더 이상 필요 없으므로 삭제
     # rm -f "${TMP_LOG}"
+
+    return 0
 }
+export -f run_link 

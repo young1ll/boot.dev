@@ -34,36 +34,63 @@ C_SKYBLUE1=$'\033[38;5;117m'
 
 C_DARKOLIVEGREEN3=$'\033[38;5;149m'
 
-
-# BOOTWIZARD 그라데이션 라인 ------------------------------------------------- #
-gradient_line() {
-    local sr=$1; local sg=$2; local sb=$3
-    local er=$4; local eg=$5; local eb=$6
-    local line="$7"
-
-    local len=${#line}
-    (( len <= 1 )) && len=1  # 만약 한 글자이거나 빈 문자열이면 분모가 0이 되는 걸 방지
-
-    for ((i=0; i<len; i++)); do
-        # t = i / (len - 1)
-        local t_num=$i
-        local t_den=$(( len - 1 ))
-
-        # 보간 계산: R = sr*(1-t) + er*t 식으로
-        # 즉, sr*(t_den - t_num)/t_den + er*(t_num)/t_den
-        local r=$(( ( sr * (t_den - t_num) + er * t_num ) / t_den ))
-        local g=$(( ( sg * (t_den - t_num) + eg * t_num ) / t_den ))
-        local b=$(( ( sb * (t_den - t_num) + eb * t_num ) / t_den ))
-
-        # ANSI TrueColor 포맷: \033[38;2;R;G;Bm
-        printf '\033[38;2;%d;%d;%dm%s' "$r" "$g" "$b" "${line:i:1}"
-    done
-
-    # 컬러 리셋(Reset)
-    printf "$NO_FORMAT"
+# TrueColor 지원 여부 확인
+supports_truecolor() {
+  [[ "${COLORTERM:-}" == *truecolor* || "${TERM:-}" == *truecolor* || "${TERM_PROGRAM:-}" == "iTerm.app" ]]
 }
 
-# BOOTWIZARD 그라데이션 텍스트 ----------------------------------------------- #
+# 24bit → 256색 변환 (단순 매핑)
+rgb_to_ansi256() {
+  local r=$1 g=$2 b=$3
+
+  if ((r == g && g == b)); then
+    # 회색 계열 (색상 간단화)
+    if ((r < 8)); then echo 16
+    elif ((r > 248)); then echo 231
+    else echo $((232 + ((r - 8) * 24 / 247)))
+    fi
+  else
+    # 6x6x6 색상 cube
+    echo $((16 + (36 * (r * 5 / 255)) + (6 * (g * 5 / 255)) + (b * 5 / 255)))
+  fi
+}
+
+# 색상 그라데이션 라인 출력
+gradient_line() {
+  local sr=$1 sg=$2 sb=$3
+  local er=$4 eg=$5 eb=$6
+  local line="$7"
+  local len=${#line}
+  (( len <= 1 )) && len=1
+
+  local use_truecolor=false
+  if supports_truecolor; then
+    use_truecolor=true
+  fi
+
+  for ((i=0; i<len; i++)); do
+    local t_num=$i
+    local t_den=$(( len - 1 ))
+
+    local r=$(( ( sr * (t_den - t_num) + er * t_num ) / t_den ))
+    local g=$(( ( sg * (t_den - t_num) + eg * t_num ) / t_den ))
+    local b=$(( ( sb * (t_den - t_num) + eb * t_num ) / t_den ))
+
+    local ch="${line:i:1}"
+
+    if $use_truecolor; then
+      printf '\033[38;2;%d;%d;%dm%s' "$r" "$g" "$b" "$ch"
+    else
+      local code
+      code=$(rgb_to_ansi256 "$r" "$g" "$b")
+      printf '\033[38;5;%dm%s' "$code" "$ch"
+    fi
+  done
+
+  printf "$NO_FORMAT"
+}
+
+# 그라데이션 텍스트 ----------------------------------------------- #
 gradient_text() {
     local sr=255 sg=111 sb=97
     local er=136 eg=216 eb=176 #255

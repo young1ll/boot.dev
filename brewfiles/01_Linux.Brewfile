@@ -7,6 +7,7 @@ brew "zsh-autosuggestions" # Zsh에  자동 완성 기능 추가
 brew "zsh-completions" # Zsh에  완성 기능 추가
 brew "zsh-syntax-highlighting" # Zsh  구문 강조 기능 추가
 brew "chroma" # Zsh  Colorize
+brew "powerlevel10k"
 
 # brew "fnm" # Node.js 버전 관리
 # brew "asdf" # 다중 언어 관리자 | https://asdf-vm.com/ko-kr/guide/getting-started.html
